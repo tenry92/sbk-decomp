@@ -1,0 +1,106 @@
+X no further calls / investigated to last call
+? not investigated further
+* also called at previous points
+[n] n calls from n different functions found so far
+
+If a function only calls system (libultra) functions, they are listed.
+Otherwise, only the game functions are listed.
+
+main [does osInitialize]
+  main_thread
+    thread2 [sends and receives messages in endless loop]
+      func_80099790 [initialize something; checks for PAL/NTSC]
+        func_800A0290 [3] X
+        func_8009C270
+          func_800A0290 *
+          func_800A45A0
+            func_800AB3D0 ?
+            func_800A0290 *
+            thread7
+              func_800ABB40 ? [also called by osGetTime -> system function?]
+          thread5 [loads and starts tasks]
+            func_800A49E0 [4] [waits for a condition on D_80000010] X
+            func_8009C6DC
+              func_800A49E0 *
+              func_8009C77C [2]
+                func_800A49E0 *
+            func_8009CB44
+              osSendMesg
+            func_8009C81C
+              func_800A49E0 *
+            func_8009C77C *
+          thread6 [does osViSwapBuffer in a loop]
+            func_8009CB98 [works with osViGetCurrentFramebuffer]
+              func_800A4EA0 ?
+              func_8009CA60 [3]
+                osSetIntMask
+              func_8009CAB4 ?
+            func_8009CC50
+              func_8009CA60 *
+              func_8009CAB4 *
+        func_8009CA60 *
+        func_80042C28
+          func_80042BC0 [2] X
+        func_800458E0 X
+        func_80048338
+          func_80042D58 [3] X
+            func_80042CDC X
+            func_80042BC0 *
+        func_800484F0
+          func_80042D58 *
+        func_80098D80
+          func_8004835C [2]
+            func_80043040 [2] ?
+          func_8009B0E8 [2] X
+        func_8009B14C X
+          osViSetSpecialFeatures
+        func_80000450
+          thread4 [sub functions all handle controller pak]
+            func_80000C94 ?
+            func_80000E00 ?
+            func_8000105C ?
+            func_80001318 ?
+            func_80001584 ?
+            func_800A1020 ?
+            func_8000165C ?
+            func_80001724 ?
+            func_8000189C ?
+        func_800704F0 X
+        func_80071830
+          func_80042D58 *
+        func_800994F4
+          func_80099384 ?
+      func_80098EAC
+        func_8004835C *
+        func_8009B0E8 *
+        func_80099288
+          func_8009B704 ?
+        func_80072B24
+          func_800722F0 ?
+          func_800721B8 ?
+          func_80072518 ?
+          func_8007276C ?
+          func_80072844 ?
+      func_80071E80 [stops and starts thread3]
+        func_8009DEC4 X
+        func_80071BE8 X
+        func_80071BB0 X
+        func_80071CC0
+          func_8009DE50 [2] ?
+          func_8009DC68 ?
+        func_80071A8C
+          func_80099C44 ?
+          func_80043040 *
+          func_8009D8B0 ?
+          func_80071A3C [2] X
+            func_8009DE50 *
+        func_80071A3C *
+      func_80000A8C X
+        osSendMesg
+      func_80000960 X
+        osSendMesg
+      func_800722B4 [stops and starts thread3]
+        func_8009DD5C X
+      func_80000A40 X
+        osSendMesg
+        osRecvMesg

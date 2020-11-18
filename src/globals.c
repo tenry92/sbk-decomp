@@ -120,9 +120,11 @@ OSMesg      D_80123CD8;
 
 struct {
   u16 unk0;
-  u16 unk2;
+  OSMesg unk2;
+  OSMesgQueue *unk14C;
   void *unk768;
-}           D_801240A8;
+  OSTask *unk77C; /* aka unk76C + 0x10 */
+}           D_801240A8; /* arg0 for thread5 and thread6 */
 struct {
   void *unk0; /* points to D_801240A8->unk768 */
   s32 unk4;

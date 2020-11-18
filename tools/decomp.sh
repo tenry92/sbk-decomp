@@ -144,6 +144,9 @@ function p {
   patch $SRCFILE $PATCHFILE
 }
 
+p thread5.c
+p thread6.c
 p func_80099790.c
 p func_8009CA60.c
 p func_8009C270.c
+p func_8009CB44.c

@@ -1,0 +1,170 @@
+2c2
+<     s32 sp48;
+---
+>     s32 msg;
+13c13
+<     sp48 = 0;
+---
+>     msg = 0;
+19,40c19,27
+< loop_1:
+< loop_2:
+<     osRecvMesg(sp40, &sp48, 1);
+<     if (sp48 == 1) {
+<         if (D_8015A624 == 0) {
+<             func_800A49E0();
+<             gThread6StackPointer = (s32) (gThread6StackPointer | 1);
+<             osSpTaskLoad(arg0->unk76C + 0x10);
+<             osSpTaskStartGo(arg0->unk76C + 0x10);
+<         } else {
+<             phi_s5 = 1;
+<         }
+<         goto loop_1;
+<     }
+<     if (sp48 == 0x29A) {
+<         temp_t9 = D_800DF150 + 1;
+<         D_800DF150 = temp_t9;
+<         D_800DF150 = (u16) (temp_t9 & 0xFFF);
+<         if ((phi_s4 == 0) || (D_800DF15C < 0x16)) {
+<             func_8009C6DC(arg0);
+<             if (D_8015A624 != 0) {
+<                 phi_s2_2 = 1;
+---
+>     
+>     for (;;) {
+>         osRecvMesg(sp40, &msg, 1);
+>         if (msg == 1) {
+>             if (D_8015A624 == 0) {
+>                 func_800A49E0();
+>                 gThread6StackPointer = (s32) (gThread6StackPointer | 1);
+>                 osSpTaskLoad(arg0->unk76C + 0x10);
+>                 osSpTaskStartGo(arg0->unk76C + 0x10);
+42,43c29
+<                 func_8009CB44(arg0, arg0);
+<                 phi_s2_2 = 0;
+---
+>                 phi_s5 = 1;
+45,51c31
+<         } else {
+<             osViBlack(1);
+<             phi_s2_2 = phi_s2;
+<         }
+<         phi_s2 = phi_s2_2;
+<         if (phi_s4 == 0) {
+<             goto loop_2;
+---
+>             continue;
+53,70c33,47
+<         temp_v0_2 = D_800DF15C;
+<         phi_s2 = phi_s2_2;
+<         if (temp_v0_2 >= 0x16) {
+<             goto loop_1;
+<         }
+<         D_800DF15C = (s32) (temp_v0_2 + 1);
+<         phi_s2 = phi_s2_2;
+<         goto loop_1;
+<     }
+<     if (sp48 == 0x29B) {
+<         temp_v0 = gThread6StackPointer;
+<         if ((temp_v0 & 2) != 0) {
+<             gThread6StackPointer = (s32) (temp_v0 & -3);
+<             func_8009C81C(arg0);
+<             phi_s2_3 = phi_s2;
+<             if (phi_s2 != 0) {
+<                 func_8009CB44(arg0, arg0);
+<                 phi_s2_3 = 0;
+---
+>         if (msg == 0x29A) {
+>             temp_t9 = D_800DF150 + 1;
+>             D_800DF150 = temp_t9;
+>             D_800DF150 = (u16) (temp_t9 & 0xFFF);
+>             if ((phi_s4 == 0) || (D_800DF15C < 0x16)) {
+>                 func_8009C6DC(arg0);
+>                 if (D_8015A624 != 0) {
+>                     phi_s2_2 = 1;
+>                 } else {
+>                     func_8009CB44(arg0, arg0);
+>                     phi_s2_2 = 0;
+>                 }
+>             } else {
+>                 osViBlack(TRUE);
+>                 phi_s2_2 = phi_s2;
+72,73c49,50
+<             phi_s2 = phi_s2_3;
+<             if (phi_s5 == 0) {
+---
+>             phi_s2 = phi_s2_2;
+>             if (phi_s4 == 0) {
+76,84c53,56
+<             func_800A49E0(sp40);
+<             gThread6StackPointer = (s32) (gThread6StackPointer | 1);
+<             osSpTaskLoad(arg0->unk76C + 0x10);
+<             osSpTaskStartGo(arg0->unk76C + 0x10);
+<             phi_s5 = 0;
+<             phi_s2 = phi_s2_3;
+<         } else {
+<             if ((temp_v0 & 1) == 0) {
+<                 goto loop_1;
+---
+>             temp_v0_2 = D_800DF15C;
+>             phi_s2 = phi_s2_2;
+>             if (temp_v0_2 >= 0x16) {
+>                 continue;
+86,87c58,81
+<             if (D_800DF158 != 0) {
+<                 func_8009C77C(arg0);
+---
+>             D_800DF15C = (s32) (temp_v0_2 + 1);
+>             phi_s2 = phi_s2_2;
+>             continue;
+>         }
+>         if (msg == 0x29B) {
+>             temp_v0 = gThread6StackPointer;
+>             if ((temp_v0 & 2) != 0) {
+>                 gThread6StackPointer = (s32) (temp_v0 & -3);
+>                 func_8009C81C(arg0);
+>                 phi_s2_3 = phi_s2;
+>                 if (phi_s2 != 0) {
+>                     func_8009CB44(arg0, arg0);
+>                     phi_s2_3 = 0;
+>                 }
+>                 phi_s2 = phi_s2_3;
+>                 if (phi_s5 == 0) {
+>                     goto loop_2;
+>                 }
+>                 func_800A49E0(sp40);
+>                 gThread6StackPointer = (s32) (gThread6StackPointer | 1);
+>                 osSpTaskLoad(arg0->unk76C + 0x10);
+>                 osSpTaskStartGo(arg0->unk76C + 0x10);
+>                 phi_s5 = 0;
+>                 phi_s2 = phi_s2_3;
+89,90c83,91
+<                 gThread6StackPointer = (s32) (temp_v0 & -2);
+<                 osSendMesg(arg0 + 0x14C, arg0, 1);
+---
+>                 if ((temp_v0 & 1) == 0) {
+>                     continue;
+>                 }
+>                 if (D_800DF158 != 0) {
+>                     func_8009C77C(arg0);
+>                 } else {
+>                     gThread6StackPointer = (s32) (temp_v0 & -2);
+>                     osSendMesg(arg0 + 0x14C, arg0, OS_MESG_BLOCK);
+>                 }
+91a93
+>             continue;
+93,96c95,99
+<         goto loop_1;
+<     }
+<     if (sp48 != 0x29D) {
+<         goto loop_1;
+---
+>         if (msg != 0x29D) {
+>             continue;
+>         }
+>         func_8009CB44(arg0, arg0 + 2);
+>         phi_s4 = 1;
+98,100d100
+<     func_8009CB44(arg0, arg0 + 2);
+<     phi_s4 = 1;
+<     goto loop_1;

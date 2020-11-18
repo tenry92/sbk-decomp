@@ -1,4 +1,5 @@
-snowboard_kids.u.split
+decomp
 *.z64
-mips_to_c
-sm64tools
+tools/mips_to_c
+tools/sm64tools
+tools/n64splat

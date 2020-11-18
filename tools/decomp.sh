@@ -1,30 +1,8 @@
 #!/bin/bash
 
-##########################
-# EXTRACT ASM AND ASSETS
-
-OUTPUT_DIR=snowboard_kids.u.split
-
-rm -rf $OUTPUT_DIR/build $OUTPUT_DIR/src $OUTPUT_DIR/asm
-rm -rf $OUTPUT_DIR/build $OUTPUT_DIR/src
-
-sm64tools/n64split -c snowboard_kids.u.yaml "baserom.us.z64"
-
-sed -i 's/mips64-elf-/mips-linux-gnu-/' $OUTPUT_DIR/Makefile
-sed -i 's+OUTPUT_FORMAT.*+/* \0 */+' $OUTPUT_DIR/snowboard_kids.u.ld
-sed -i 's+TOOLS_DIR = ../tools+TOOLS_DIR = ../sm64tools+' $OUTPUT_DIR/Makefile
-
-# remove empty folders
-rmdir $OUTPUT_DIR/geo $OUTPUT_DIR/levels
-
-
-##########################################
-# EXTRACT ASM FUNCTIONS AND CONVERT TO C
-
-mkdir -p $OUTPUT_DIR/src $OUTPUT_DIR/asm
-
-ASMFILE=snowboard_kids.u.split/snowboard_kids.u.s
-
+ASMFILE=$1
+ASMDIR=$2
+CDIR=$3
 
 function decompile-lines {
   LINESTART=$1
@@ -34,13 +12,13 @@ function decompile-lines {
   echo "translating $NAME into C..."
   
   sed -n "$LINESTART,${LINEEND}p" $ASMFILE > $NAME.s
-  mips_to_c/mips_to_c.py $NAME.s > $OUTPUT_DIR/src/$NAME.c
+  $MIPS_TO_C $NAME.s > $CDIR/$NAME.c
   RET=$?
   rm $NAME.s
   
   if [ $RET -eq 1 ]; then
-    cat $OUTPUT_DIR/src/$NAME.c
-    rm $OUTPUT_DIR/src/$NAME.c
+    cat $CDIR/$NAME.c
+    rm $CDIR/$NAME.c
     return $RET
   fi
 }
@@ -68,7 +46,7 @@ function copy-asm-offsets {
   
   echo "copying $NAME..."
   
-  sed -n "$LINESTART,${LINEEND}p" $ASMFILE > $OUTPUT_DIR/asm/$NAME.s
+  sed -n "$LINESTART,${LINEEND}p" $ASMFILE > $ASMDIR/$NAME.s
   return $?
 }
 
@@ -156,11 +134,9 @@ remove-fix-nops
 #######################
 # MAKE C CODE CLEANER
 
-SRCDIR=snowboard_kids.u.split
-
 function p {
   BASENAME=$1
-  SRCFILE=$SRCDIR/src/$BASENAME
+  SRCFILE=$CDIR/$BASENAME
   COPY=$SRCFILE.orig
   PATCHFILE=patches/src/$BASENAME.patch
   

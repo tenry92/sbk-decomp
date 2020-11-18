@@ -38,55 +38,51 @@ ranges:
 labels:
   # functions
   - [0x80000400, "EntryPoint"]
+  - [0x800005E4, "thread4"] # reads controller input and handles mem pak
+  # - [0x80013F88, "incdec_clamped"] # result: value, amount, increase; clamped 0x00 - 0xFF
   - [0x800996A0, "main"]
   - [0x800996FC, "main_thread"]
   - [0x800998E4, "thread2"]
-  - [0x800005E4, "thread4"] # reads controller input and handles mem pak
   - [0x8009C444, "thread5"]
   - [0x8009C8DC, "thread6"]
   - [0x800A4728, "thread7"]
-  # - [0x80013F88, "incdec_clamped"] # result: value, amount, increase; clamped 0x00 - 0xFF
   
   # variables
-  - [0x801237B0, "gMainThread"]
-  - [0x80123960, "gThread2"]
-  - [0x8015A6B8, "gThread3"]
+  - [0x800DF340, "osViModeTable"]
   - [0x800E29C8, "gThread4"]
   - [0x800E4B78, "gThread4MsgQueue"]
+  - [0x801237B0, "gMainThread"]
+  - [0x80123960, "gThread2"]
   - [0x80158620, "gThread5StackPointer"]
   - [0x8015A620, "gThread6StackPointer"]
-  
-  - [0x800DF340, "osViModeTable"]
+  - [0x8015A6B8, "gThread3"]
   
   # more variables (found with debugger)
+  - [0x800EC9C2, "gMainMenuActiveItem"] # Battle Race, Skill Game etc.
+  - [0x800ECA2F, "gBoardFreeStyle1Paint"]
+  - [0x800ECA30, "gBoardAllAround1Paint"]
+  - [0x800ECA31, "gBoardAlpine1Paint"]
+  - [0x8010AE64, "gCharacterSelectIndex1"] # 1 = Slash, 2 = Nancy etc.; reused for board selection (0 = Free Style)
+  - [0x8011C0BC, "gPlayer1GoalRankPrizeCounter"]
+  - [0x80121B51, "gCourseMenuActiveItem"]
+  - [0x80121D85, "gCharacterSelectIndex2"] # 0 = Slash, 1 = Nancy etc.
+  - [0x80121D8C, "gMoneyAccount"] # total money on account
+  - [0x80121D8E, "gGoalTotalMoney"]
+  - [0x8012201C, "gPlayer1Speed"] # current speed
   - [0x80122027, "gPlayer1ActiveTrick"] # 0 = none
+  - [0x80122040, "gTrickPoints"]
   - [0x80122081, "gPlayer1ActiveTrick2"] # (pre-)trick related variable
   - [0x80122288, "gPlayer1Lap"] # 0-based lap
-  - [0x80122289, "gPlayer1Position"] # 0 = 1st, 3 = 4th
+  - [0x80122289, "gPlayer1Place"] # 0 = 1st, 3 = 4th
   - [0x80122290, "gPlayer1Struct"]
   - [0x80122292, "gPlayer1ShotId"]
   - [0x80122294, "gPlayer1ShotCount"]
   - [0x80122295, "gPlayer1ItemId"]
-  - [0x8011C0BC, "gPlayer1GoalRankPrizeCounter"]
-  - [0x80328026, "gPlayer1GoalRankPrizeCounter2"]
   - [0x801222E8, "gPlayer1CurrentMoney"] # current number of coins for P1 during race
   - [0x801222EA, "gPlayer1GoalGetCoinCounter"] # "GET COIN" countdown
   - [0x801222EC, "gPlayer1MoneyTotal"] # total number of coins collected for P1 during race
-  - [0x8012201C, "gPlayer1Speed"] # current speed
-  
-  - [0x80122040, "gTrickPoints"]
+  - [0x80328026, "gPlayer1GoalRankPrizeCounter2"]
   - [0x80328086, "gTrickPoints2"] # repurposed on finish
-  
-  - [0x80121D8C, "gMoneyAccount"] # total money on account
-  - [0x80121D8E, "gGoalTotalMoney"]
-  - [0x800ECA2F, "gBoardFreeStyle1Paint"]
-  - [0x800ECA30, "gBoardAllAround1Paint"]
-  - [0x800ECA31, "gBoardAlpine1Paint"]
-  
-  - [0x8010AE64, "gCharacterSelectIndex1"] # 1 = Slash, 2 = Nancy etc.; reused for board selection (0 = Free Style)
-  - [0x80121D85, "gCharacterSelectIndex2"] # 0 = Slash, 1 = Nancy etc.
-  - [0x800EC9C2, "gMainMenuActiveItem"] # Battle Race, Skill Game etc.
-  - [0x80121B51, "gCourseMenuActiveItem"]
   
   # extracted by n64sym
   # - [0x7003DDD0, "n_alSynRemovePlayer"]

@@ -1,10 +1,10 @@
-6,7c6,7
+21,22c21,22
 <     if (osTvType == 1) {
 <         func_8009C270(&D_801240A8, 2, 1);
 ---
 >     if (osTvType == OS_TV_NTSC) {
 >         func_8009C270(&D_801240A8, OS_VI_NTSC_LAN1, 1);
-9c9,10
+24c24,25
 <         func_8009C270(&D_801240A8, 0x1E, 1);
 ---
 >         /* MPAL - mainly Brazil */

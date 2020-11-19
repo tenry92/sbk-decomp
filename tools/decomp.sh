@@ -86,7 +86,8 @@ decompile-offsets 072430 072770 # func_80071830 func_80071A3C func_80071A8C
 decompile-offsets 0727B0 0727E4 # func_80071BB0
 decompile-offsets 0727E8 072880 # func_80071BE8
 decompile-offsets 0728C0 072CE0 # func_80071CC0 func_80071E80
-decompile-offsets 072EB4 072EEC # func_800722B4
+decompile-offsets 072DB8 072E5C # func_800721B8
+decompile-offsets 072EB4 0734DC # func_800722B4 func_800722F0 func_80072518 func_8007276C func_80072844
 copy-asm-offsets  073724 073824 # func_80072B24
 
 decompile-offsets 099980 099E84 # func_80098D80 func_80098EAC
@@ -95,6 +96,7 @@ decompile-offsets 09A2A0 09A4E0 # main main_thread func_80099790
 copy-asm-offsets  09A4E4 09A800 # thread2
 decompile-offsets 09BCE8 09C188 # func_8009B0E8 func_8009B14C
 decompile-offsets 099E88 099F80 # func_80099288
+decompile-offsets 09C304 09CE68 # func_8009B704
 decompile-offsets 09CE70 09D030 # func_8009C270
 decompile-offsets 09D044 09D6B0 # thread5 func_8009C6DC func_8009C77C func_8009C81C thread6 func_8009CA60
 decompile-offsets 09D744 09D89C # func_8009CB44 func_8009CB98 func_8009CC50

@@ -56,6 +56,7 @@ main [does osInitialize]
           osViSetSpecialFeatures
         func_80000450
           thread4 [sub functions all handle controller pak]
+            [these function get called when the game checks for cpak for loading or saving]
             func_80000C94 ?
             func_80000E00 ?
             func_8000105C ?
@@ -74,20 +75,38 @@ main [does osInitialize]
         func_8004835C *
         func_8009B0E8 *
         func_80099288
-          func_8009B704 ?
+          func_8009B704
+            func_80048524 ?
+            func_80099D10 ?
+            func_8009C43C ?
         func_80072B24
-          func_800722F0 ?
-          func_800721B8 ?
-          func_80072518 ?
-          func_8007276C ?
-          func_80072844 ?
+          func_800722F0 [4]
+            func_80098C30 ?
+            func_80097AE8 ?
+          func_800721B8
+            func_80071B74 ?
+          func_80072518
+            func_800722F0 *
+            func_8009DE50 [5] ?
+            func_8009DC68 [4] ?
+            func_8009DFDC ?
+            func_8009DF14 [2] ?
+          func_8007276C
+            func_800722F0 *
+            func_8009DE50 *
+            func_8009DC68 *
+          func_80072844
+            func_800722F0 *
+            func_8009DE50 *
+            func_8009DC68 *
+            func_8009DF14 *
       func_80071E80 [stops and starts thread3]
         func_8009DEC4 X
         func_80071BE8 X
         func_80071BB0 X
         func_80071CC0
-          func_8009DE50 [2] ?
-          func_8009DC68 ?
+          func_8009DE50 *
+          func_8009DC68 *
         func_80071A8C
           func_80099C44 ?
           func_80043040 *

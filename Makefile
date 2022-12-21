@@ -14,11 +14,11 @@ ASMFILE = $(DECOMPDIR)/snowboard_kids.u.s
 SM64TOOLSDIR = $(TOOLSDIR)/sm64tools
 N64SPLIT = $(SM64TOOLSDIR)/n64split
 
-MIPS_TO_C_DIR = $(TOOLSDIR)/mips_to_c
+MIPS_TO_C_DIR = $(TOOLSDIR)/m2c
 MIPS_TO_C = $(MIPS_TO_C_DIR)/m2c.py
 
-N64SPLATDIR = $(TOOLSDIR)/n64splat
-N64SPLAT = $(N64SPLATDIR)/split.py
+SPLATDIR = $(TOOLSDIR)/splat
+SPLAT = $(SPLATDIR)/split.py
 
 # TERMINAL COLORS: https://man7.org/linux/man-pages/man5/terminal-colors.d.5.html
 CRESET = \e[0m
@@ -26,7 +26,6 @@ CGREEN = \e[32m
 CRED = \e[31m
 CHIGHLIGHT = \e[1m
 CCOMMAND = \e[36m
-
 
 .PHONY: clean split tools decomp check-requirements check-git check-python3
 
@@ -48,13 +47,13 @@ $(N64SPLIT):
 $(MIPS_TO_C):
 	git clone https://github.com/matt-kempster/m2c.git $(MIPS_TO_C_DIR)
 
-$(N64SPLAT):
-	git clone https://github.com/ethteck/n64splat.git $(N64SPLATDIR)
+$(SPLAT):
+	git clone https://github.com/ethteck/splat.git $(SPLATDIR)
 
 clean:
 	rm -rf $(DECOMPDIR)
 
-decomp: $(ASMFILE) $(MIPS_TO_C) check-requirements
+decomp: check-requirements $(ASMFILE) $(MIPS_TO_C)
 	@mkdir -p $(CDIR) $(ASMDIR)
 	@MIPS_TO_C=$(MIPS_TO_C) $(TOOLSDIR)/decomp.sh $(ASMFILE) $(ASMDIR) $(CDIR)
 

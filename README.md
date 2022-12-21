@@ -56,3 +56,10 @@ the game.
 
 Call `make decomp` for creating a (work in progress) decompilation of your ROM
 into a new folder `decomp`.
+
+## Tools
+
+This decompilation project makes use of the following external tools:
+
+- [splat](https://github.com/ethteck/splat) - extracts sections from ROM file into assembly and binary asset files
+- [m2c](https://github.com/matt-kempster/m2c) - assembly to C converter

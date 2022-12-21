@@ -1,5 +1,5 @@
 decomp
 *.z64
-tools/mips_to_c
+tools/m2c
 tools/sm64tools
-tools/n64splat
+tools/splat

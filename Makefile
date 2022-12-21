@@ -14,8 +14,8 @@ ASMFILE = $(DECOMPDIR)/snowboard_kids.u.s
 SM64TOOLSDIR = $(TOOLSDIR)/sm64tools
 N64SPLIT = $(SM64TOOLSDIR)/n64split
 
-MIPS_TO_C_DIR = $(TOOLSDIR)/m2c
-MIPS_TO_C = $(MIPS_TO_C_DIR)/m2c.py
+M2C_DIR = $(TOOLSDIR)/m2c
+M2C = $(M2C_DIR)/m2c.py
 
 SPLATDIR = $(TOOLSDIR)/splat
 SPLAT = $(SPLATDIR)/split.py
@@ -24,12 +24,17 @@ SPLAT = $(SPLATDIR)/split.py
 CRESET = \e[0m
 CGREEN = \e[32m
 CRED = \e[31m
+CBLUE = \e[34m
 CHIGHLIGHT = \e[1m
 CCOMMAND = \e[36m
 
+define print_info
+	@echo "$(CBLUE)$(1)$(CRESET)"
+endef
+
 .PHONY: clean split tools decomp check-requirements check-git check-python3
 
-tools: $(N64SPLIT) $(MIPS_TO_C)
+tools: $(N64SPLIT) $(M2C)
 
 check-requirements: check-git check-python3
 
@@ -41,26 +46,33 @@ check-python3:
 	@python3 -m pip show pycparser -q && echo "$(CGREEN)python package pycparser found$(CRESET)" || { echo "$(CHIGHLIGHT)Please install the package using the following command:$(CRESET) $(CCOMMAND)python3 -m pip install --upgrade pycparser$(CRESET)"; exit 1; }
 
 $(N64SPLIT):
+	$(call print_info,Downloading sm64tools)
 	git clone --recurse-submodules -j8 https://github.com/queueRAM/sm64tools.git $(SM64TOOLSDIR)
+	$(call print_info,Building sm64tools)
 	cd $(SM64TOOLSDIR) && make
 
-$(MIPS_TO_C):
-	git clone https://github.com/matt-kempster/m2c.git $(MIPS_TO_C_DIR)
+$(M2C):
+	$(call print_info,Downloading m2c)
+	git clone https://github.com/matt-kempster/m2c.git $(M2C_DIR)
 
 $(SPLAT):
+	$(call print_info,Downloading splat)
 	git clone https://github.com/ethteck/splat.git $(SPLATDIR)
 
 clean:
 	rm -rf $(DECOMPDIR)
 
-decomp: check-requirements $(ASMFILE) $(MIPS_TO_C)
+decomp: check-requirements $(ASMFILE) $(M2C)
+	$(call print_info,Converting ASM to C)
 	@mkdir -p $(CDIR) $(ASMDIR)
-	@MIPS_TO_C=$(MIPS_TO_C) $(TOOLSDIR)/decomp.sh $(ASMFILE) $(ASMDIR) $(CDIR)
+	@MIPS_TO_C=$(M2C) $(TOOLSDIR)/decomp.sh $(ASMFILE) $(ASMDIR) $(CDIR)
 
 $(ASMFILE): split
 
 split: $(ROMFILE) $(N64SPLIT)
+	$(call print_info,Extracting ASM from ROM file)
 	$(N64SPLIT) -c $(SPLITFILE) -o $(DECOMPDIR) $(ROMFILE)
+	$(call print_info,Cleaning up output)
 	rmdir $(DECOMPDIR)/geo $(DECOMPDIR)/levels
 	sed -i 's/mips64-elf-/mips-linux-gnu-/' $(DECOMPDIR)/Makefile
 	sed -i 's+OUTPUT_FORMAT.*+/* \0 */+' $(DECOMPDIR)/snowboard_kids.u.ld

@@ -1,8 +1,0 @@
-1c1
-< void func_8009CB44(void *arg0, ? arg1) {
----
-> void func_8009CB44(void *arg0, OSMesg msg) {
-10c10
-<         osSendMesg(phi_s0->unk4, arg1, 0);
----
->         osSendMesg(phi_s0->unk4, msg, OS_MESG_NOBLOCK);

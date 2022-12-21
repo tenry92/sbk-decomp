@@ -3,22 +3,18 @@ TOOLSDIR = tools
 DECOMPDIR = decomp
 ASMDIR = $(DECOMPDIR)/asm
 CDIR = $(DECOMPDIR)/src
-BINDIR = $(DECOMPDIR)/bin
+BINDIR = $(DECOMPDIR)/assets
 
 # FILES
 ROMFILE = baserom.us.z64
-SPLITFILE = snowboard_kids.u.yaml
-ASMFILE = $(DECOMPDIR)/snowboard_kids.u.s
+SPLITFILE = snowboardkids.yaml
 
 # TOOLS
-SM64TOOLSDIR = $(TOOLSDIR)/sm64tools
-N64SPLIT = $(SM64TOOLSDIR)/n64split
+SPLATDIR = $(TOOLSDIR)/splat
+SPLAT = $(SPLATDIR)/split.py
 
 M2C_DIR = $(TOOLSDIR)/m2c
 M2C = $(M2C_DIR)/m2c.py
-
-SPLATDIR = $(TOOLSDIR)/splat
-SPLAT = $(SPLATDIR)/split.py
 
 # TERMINAL COLORS: https://man7.org/linux/man-pages/man5/terminal-colors.d.5.html
 CRESET = \e[0m
@@ -32,9 +28,9 @@ define print_info
 	@echo "$(CBLUE)$(1)$(CRESET)"
 endef
 
-.PHONY: clean split tools decomp check-requirements check-git check-python3
+.PHONY: clean splat tools decomp check-requirements check-git check-python3
 
-tools: $(N64SPLIT) $(M2C)
+tools: $(SPLAT) $(M2C)
 
 check-requirements: check-git check-python3
 
@@ -43,13 +39,7 @@ check-git:
 
 check-python3:
 	@which python3 > /dev/null && echo "$(CGREEN)python3 found$(CRESET)" || { echo "$(CRED)python3 not found.$(CRESET) $(CHIGHLIGHT)Please install python3 on your system.$(CRESET)"; exit 1; }
-	@python3 -m pip show pycparser -q && echo "$(CGREEN)python package pycparser found$(CRESET)" || { echo "$(CHIGHLIGHT)Please install the package using the following command:$(CRESET) $(CCOMMAND)python3 -m pip install --upgrade pycparser$(CRESET)"; exit 1; }
-
-$(N64SPLIT):
-	$(call print_info,Downloading sm64tools)
-	git clone --recurse-submodules -j8 https://github.com/queueRAM/sm64tools.git $(SM64TOOLSDIR)
-	$(call print_info,Building sm64tools)
-	cd $(SM64TOOLSDIR) && make
+	@which pip3 > /dev/null && echo "$(CGREEN)pip3 found$(CRESET)" || { echo "$(CRED)pip3 not found.$(CRESET) $(CHIGHLIGHT)Please install pip3 on your system.$(CRESET)"; exit 1; }
 
 $(M2C):
 	$(call print_info,Downloading m2c)
@@ -58,22 +48,15 @@ $(M2C):
 $(SPLAT):
 	$(call print_info,Downloading splat)
 	git clone https://github.com/ethteck/splat.git $(SPLATDIR)
+	$(call print_info,Installing splat requirements)
+	pip3 install -r $(SPLATDIR)/requirements.txt
 
 clean:
 	rm -rf $(DECOMPDIR)
 
-decomp: check-requirements $(ASMFILE) $(M2C)
+decomp: check-requirements splat $(M2C)
 	$(call print_info,Converting ASM to C)
-	@mkdir -p $(CDIR) $(ASMDIR)
-	@MIPS_TO_C=$(M2C) $(TOOLSDIR)/decomp.sh $(ASMFILE) $(ASMDIR) $(CDIR)
 
-$(ASMFILE): split
-
-split: $(ROMFILE) $(N64SPLIT)
+splat: $(ROMFILE) $(SPLAT)
 	$(call print_info,Extracting ASM from ROM file)
-	$(N64SPLIT) -c $(SPLITFILE) -o $(DECOMPDIR) $(ROMFILE)
-	$(call print_info,Cleaning up output)
-	rmdir $(DECOMPDIR)/geo $(DECOMPDIR)/levels
-	sed -i 's/mips64-elf-/mips-linux-gnu-/' $(DECOMPDIR)/Makefile
-	sed -i 's+OUTPUT_FORMAT.*+/* \0 */+' $(DECOMPDIR)/snowboard_kids.u.ld
-	sed -i 's+TOOLS_DIR = ../tools+TOOLS_DIR = ../sm64tools+' $(DECOMPDIR)/Makefile
+	$(SPLAT) $(SPLITFILE)

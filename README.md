@@ -31,20 +31,17 @@ probably based on the same game engine.
 ## Project structure
 
 - decomp/ *generated*
-  - asm/ *individual ASM functions not yet converted to C*
-  - bin/ *binary assets that should include everything but code*
+  - asm/ *ASM code*
+  - assets/ *binary assets that should include everything but code*
   - src/ *C code converted from assembly*
-  - snowboard_kids.u.s *the whole game's code in assembly*
-- patches/
-- src/
 - tools/
-    - mips_to_c/ *automatically downloaded*
-    - sm64tools/ *automatically downloaded*
-    decomp.sh
+    - m2c/ *automatically downloaded*
+    - splat/ *automatically downloaded*
 - Makefile
 - baserom.us.z64 *← YOU put this file here*
 - calltree.txt
-- snowboard_kids.u.yaml *ROM data locations and labels*
+- snowboardkids.yaml *ROM data locations*
+- symbol_addrs.txt
 
 ## Decompilation process
 
@@ -59,11 +56,3 @@ the game.
 
 Call `make decomp` for creating a (work in progress) decompilation of your ROM
 into a new folder `decomp`.
-
-A (hopefully full) disassembly of the game should be available in
-**decomp/snowboard_kids.u.s**. This file is huge.
-
-In **snowboard_kids.u.yaml** a mapping between addresses and labels (could be
-variables or functions) are provided.
-
-In **src/globals.c** are global variables with (more or less) known data types.
